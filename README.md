@@ -29,4 +29,7 @@ Or run analysis via CLI:
 python orchestrator_service.py /path/to/image.jpg
 ```
 
+The script prints the analysis JSON and also saves it to your Desktop in a file
+named `analysis_<image-name>.txt`.
+
 The API returns JSON conforming to the schema defined in `schema_models.py`.

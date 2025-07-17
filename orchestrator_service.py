@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json
-from fastapi import FastAPI, HTTPException
+from pathlib import Path
+from fastapi import FastAPI
 from pydantic import BaseModel
 import openai
 
@@ -52,4 +53,12 @@ if __name__ == '__main__':
     parser.add_argument('image_path')
     args = parser.parse_args()
     req = AnalyzeRequest(imagePath=args.image_path)
-    print(json.dumps(analyze_image_endpoint(req), indent=2))
+    result = analyze_image_endpoint(req)
+    print(json.dumps(result, indent=2))
+
+    desktop = Path.home() / "Desktop"
+    desktop.mkdir(parents=True, exist_ok=True)
+    output_path = desktop / f"analysis_{Path(args.image_path).stem}.txt"
+    with output_path.open('w') as f:
+        f.write(json.dumps(result, indent=2))
+    print(f"Saved analysis to {output_path}")
